@@ -63,3 +63,14 @@ def usuarios():
         return jsonify(model.get_usuarios())
     except Exception as e:
         return jsonify({'Error': str(e)}), 500 
+
+
+@usuario_blueprint.route('/usuario/iniciar_sesion', methods=['POST'])
+@cross_origin()
+def iniciar_sesion():
+    try:
+        return jsonify(model.iniciar_sesion(request.json['email'], request.json['contra']))
+    except KeyError as e:
+        return jsonify({'Error': f"Campo '{str(e)}' no encontrado en la petición"}), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500

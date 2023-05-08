@@ -72,7 +72,7 @@ class UsuarioModel:
         data = {'result': 1}
         return data
 
-    def iniciar_secion(self, email, contra):    
+    def iniciar_sesion(self, email, contra):    
         params = {
             'email' : email,
             'contra' : contra
