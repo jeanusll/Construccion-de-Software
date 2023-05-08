@@ -4,7 +4,7 @@ import mysql.connector.pooling
 
 import configparser
 config = configparser.ConfigParser()
-config.read('D:/Universidad la Salle/7mo Semestre/Construcción de Software/Proyecto-CS-master/mysql_config.ini')
+config.read('D:/Universidad la Salle/7mo Semestre/Construcción de Software/Proyecto/mysql_config.ini')
 
 dbconfig = {
     "host":config.get('mysql', 'host'),

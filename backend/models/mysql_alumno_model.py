@@ -1,6 +1,6 @@
 from backend.models.mysql_connection_pool import MySQLPool
 import requests
-
+import mysql.connector
 class AlumnoModel:
     def __init__(self):        
         self.mysql_pool = MySQLPool()
@@ -48,9 +48,9 @@ class AlumnoModel:
             cursor = self.mysql_pool.execute(query, data, commit=True)
         except mysql.connector.errors.IntegrityError as e:
             if e.errno == mysql.connector.errorcode.ER_DUP_ENTRY:
-                # manejar el error de clave única violada aquí, por ejemplo, informar al usuario y pedir un valor de dni_alumno diferente
+                return {'error' : "Error, el dni ya está registrado"}
             else:
-                # manejar otros errores de integridad aquí
+                return {'Error' :"Error en la base de datos"}
         else:
             data['dni_alumno'] = cursor.lastrowid
             return data

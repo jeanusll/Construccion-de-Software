@@ -16,13 +16,13 @@ profesor_blueprint = Blueprint('profesor_blueprint', __name__)
 @profesor_blueprint.route('/profesor', methods=['PUT'])
 @cross_origin()
 def create_profesor():
-    content = model.create_profesor(request.json['profesor_dni'], request.json['profesor_nombre'], request.json['profesor_apellido'], request.json['profesor_fecha_nac'],request.json['id_usuario'],request.json['id_curso'] )    
+    content = model.create_profesor(request.json['profesor_dni'], request.json['profesor_nombre'], request.json['profesor_apellido'], request.json['profesor_fecha_nac'],request.json['id_usuario'])    
     return jsonify(content)
 
 @profesor_blueprint.route('/profesor', methods=['PATCH'])
 @cross_origin()
 def update_profesor():
-    content = model.update_profesor(request.json['profesor_dni'], request.json['profesor_nombre'], request.json['profesor_apellido'], request.json['profesor_fecha_nac'],request.json['id_usuario'],request.json['id_curso'] )    
+    content = model.update_profesor(request.json['profesor_dni'], request.json['profesor_nombre'], request.json['profesor_apellido'], request.json['profesor_fecha_nac'],request.json['id_usuario'])    
     return jsonify(content)
 
 @profesor_blueprint.route('/profesor', methods=['DELETE'])

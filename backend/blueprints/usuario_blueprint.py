@@ -22,7 +22,7 @@ def create_usuario():
 @usuario_blueprint.route('/usuario', methods=['PATCH'])
 @cross_origin()
 def update_usuario():
-    content = model.update_usuario(request.json['id_usuario'], request.json['id_grupo_usuario'], request.json['email'], request.json['contra'])    
+    content = model.update_usuario(request.json['id_usuario'], request.json['id_grupo_usuario'], request.json['email'], request.json['contra_anterior'],request.json['contra_nueva'] )    
     return jsonify(content)
 
 @usuario_blueprint.route('/usuario', methods=['DELETE'])

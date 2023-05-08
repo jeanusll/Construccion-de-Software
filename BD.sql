@@ -7,8 +7,8 @@ CREATE TABLE grupo_usuarios (
 CREATE TABLE usuarios(
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
 	id_grupo_usuario INT,
-	email VARCHAR(50),
-	contra VARCHAR(50),
+	email VARCHAR(50) not null unique,
+	contra VARCHAR(100) not null,
 
 	FOREIGN KEY (id_grupo_usuario) REFERENCES grupo_usuarios (id_grupo_usuario)
 
@@ -22,7 +22,7 @@ CREATE TABLE administradores (
 
 CREATE TABLE alumnos (
   dni_alumno VARCHAR(8) PRIMARY KEY,
-  id_usuario INT,
+  id_usuario INT not null unique,
   nombre VARCHAR(50),
   apellido VARCHAR(50),
   fecha_nacimiento DATE,
@@ -44,10 +44,8 @@ CREATE TABLE profesores (
 	profesor_nombre varchar(100),
 	profesor_apellido varchar(100),
 	profesor_fecha_nac DATE,
-	id_usuario int,
-	id_curso int,
-  FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario),
-  CONSTRAINT fk_profesores_cursos  FOREIGN KEY (id_curso) REFERENCES cursos (id_curso)
+	id_usuario int not null unique,
+  	FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
 );
 
 CREATE TABLE profesor_curso (
@@ -89,7 +87,7 @@ CREATE TABLE asistencias (
 
 CREATE TABLE solicitudes (
 	id_solicitud INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	id_asistencia INT,
+	id_asistencia INT unique,
 	documento VARCHAR(20),
 	estado BOOLEAN,
 	justificación VARCHAR(60),
@@ -106,22 +104,9 @@ CREATE TABLE participaciones (
 
 create table listas (
 	id_lista int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	id_curso int,
+	id_curso int unique,
 	dni_alumno varchar(8),
 	estado BOOLEAN,
 	FOREIGN KEY (dni_alumno) REFERENCES alumnos (dni_alumno),
 	FOREIGN KEY (id_curso) REFERENCES cursos (id_curso)
 );
-
-
-DELIMITER $$
-CREATE TRIGGER tr_cursos BEFORE INSERT ON cursos
-FOR EACH ROW
-BEGIN
-  IF NEW.semestre <= 0 OR NEW.semestre >= 13 THEN
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El semestre debe ser mayor que 0 y menor que 13';
-  END IF;
-END $$
-DELIMITER ;
-
-
