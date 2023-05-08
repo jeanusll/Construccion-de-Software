@@ -10,7 +10,7 @@ class SolicitudModel:
         data = []
         content = {}
         for result in rv:
-            content = {'id_solicitud': result[0], 'id_asistencia': result[1], 'documento': result[2], 'justificacion': result[3]}
+            content = {'id_solicitud': result[0], 'id_asistencia': result[1], 'documento': result[2], 'estado' : result[3], 'justificacion': result[4]}
             data.append(content)
             content = {}
         return data
@@ -20,33 +20,36 @@ class SolicitudModel:
         data = []
         content = {}
         for result in rv:
-            content = {'id_solicitud': result[0], 'id_asistencia': result[1], 'documento': result[2], 'justificacion': result[3]}
+            content = {'id_solicitud': result[0], 'id_asistencia': result[1], 'documento': result[2], 'estado' : result[3], 'justificacion': result[4]}
             data.append(content)
             content = {}
         return data
 
-    def create_solicitud(self, id_asistencia, documento, justificacion):    
+    def create_solicitud(self, id_asistencia, documento, estado, justificacion):    
         data = {
             'id_asistencia': id_asistencia,
             'documento': documento,
             'justificacion': justificacion,
+            'estado':estado
         }  
-        query = """insert into solicitudes (id_asistencia, documento, justificacion) 
-            values (%(id_asistencia)s, %(documento)s, %(justificacion)s)"""    
+        query = """insert into solicitudes (id_asistencia, documento, estado, justificacion) 
+            values (%(id_asistencia)s, %(documento)s, %(estado)s, %(justificacion)s)"""    
         cursor = self.mysql_pool.execute(query, data, commit=True)   
 
         data['id_solicitud'] = cursor.lastrowid
         return data
 
-    def update_solicitud(self, id_solicitud, id_asistencia, documento, justificacion):    
+    def update_solicitud(self, id_solicitud, id_asistencia, documento, estado, justificacion):    
         data = {
             'id_solicitud': id_solicitud,
             'id_asistencia': id_asistencia,
             'documento': documento,
             'justificacion': justificacion,
+            'estado':estado
+
         }  
         query = """update solicitudes set id_asistencia = %(id_asistencia)s, documento = %(documento)s,
-                    justificacion= %(justificacion)s where id_solicitud = %(id_solicitud)s"""    
+                    justificacion= %(justificacion)s, estado = %(estado)s where id_solicitud = %(id_solicitud)s"""    
         cursor = self.mysql_pool.execute(query, data, commit=True)   
 
         result = {'result': 1} 

@@ -43,10 +43,17 @@ class AlumnoModel:
   
         query = """insert into alumnos (dni_alumno, id_usuario, nombre, apellido, fecha_nacimiento, foto, vector) 
             values (%(dni_alumno)s, %(id_usuario)s, %(nombre)s, %(apellido)s, %(fecha_nacimiento)s, %(foto)s, %(vector)s)"""
-        cursor = self.mysql_pool.execute(query, data, commit=True)   
 
-        data['dni_alumno'] = cursor.lastrowid
-        return data
+        try:
+            cursor = self.mysql_pool.execute(query, data, commit=True)
+        except mysql.connector.errors.IntegrityError as e:
+            if e.errno == mysql.connector.errorcode.ER_DUP_ENTRY:
+                # manejar el error de clave única violada aquí, por ejemplo, informar al usuario y pedir un valor de dni_alumno diferente
+            else:
+                # manejar otros errores de integridad aquí
+        else:
+            data['dni_alumno'] = cursor.lastrowid
+            return data
 
     def update_alumno(self, dni_alumno, nombre, apellido, fecha_nacimiento, foto):   
 
