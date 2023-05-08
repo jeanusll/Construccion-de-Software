@@ -39,3 +39,8 @@ def administrador():
 @cross_origin()
 def administradores():
     return jsonify(model.get_administradores())
+
+@administrador_blueprint.route('/profe_curso', methods=['POST'])
+@cross_origin()
+def administradores():
+    return jsonify(model.profe_curso(request.json['profesor_dni'], request.json['id_curso']))

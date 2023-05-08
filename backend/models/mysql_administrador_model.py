@@ -55,3 +55,15 @@ class AdministradorModel:
         data = {'result': 1}
         return data
 
+    def profe_curso(self, profesor_dni, id_curso):     
+        params = {
+            'profesor_dni' : profesor_dni,
+            'id_curso' : id_curso
+        }      
+        query = """insert into profesor_curso (profesor_dni, id_curso) values(%(profesor_dni)s, %(id_curso)s"""    
+        self.mysql_pool.execute(query, params, commit=True)   
+
+        data = {'result': 1}
+        return data
+    
+

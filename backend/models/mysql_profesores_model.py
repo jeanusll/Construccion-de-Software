@@ -20,7 +20,7 @@ class ProfesorModel:
         data = []
         content = {}
         for result in rv:
-            content = {'profesor_id': result[0], 'profesor_nombre': result[1], 'profesor_apellido': result[2], 'profesor_fecha_nac': result[3], 'id_usuario': result[4]}
+            content = {'profesor_dni': result[0], 'profesor_nombre': result[1], 'profesor_apellido': result[2], 'profesor_fecha_nac': result[3], 'id_usuario': result[4]}
             data.append(content)
             content = {}
         return data
