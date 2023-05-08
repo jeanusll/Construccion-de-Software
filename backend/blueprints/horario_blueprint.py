@@ -16,26 +16,49 @@ horario_blueprint = Blueprint('horario_blueprint', __name__)
 @horario_blueprint.route('/horario', methods=['PUT'])
 @cross_origin()
 def create_horario():
-    content = model.create_horario(request.json['id_curso'], request.json['hora_inicio'], request.json['hora_final'], request.json['dia'], request.json['aula']) 
-    return jsonify(content)
+    try:
+        content = model.create_horario(request.json['id_curso'], request.json['hora_inicio'], request.json['hora_final'], request.json['dia'], request.json['aula']) 
+        return jsonify(content)
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @horario_blueprint.route('/horario', methods=['PATCH'])
 @cross_origin()
 def update_horario():
-    content = model.update_horario(request.json['id_horario'], request.json['id_curso'], request.json['hora_inicio'], request.json['hora_final'], request.json['dia'], request.json['aula'])    
-    return jsonify(content)
+    try:
+        content = model.update_horario(request.json['id_horario'], request.json['id_curso'], request.json['hora_inicio'], request.json['hora_final'], request.json['dia'], request.json['aula'])    
+        return jsonify(content)
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @horario_blueprint.route('/horario', methods=['DELETE'])
 @cross_origin()
 def delete_horario():
-    return jsonify(model.delete_horario(int(request.json['id_horario'])))
+    try:
+        return jsonify(model.delete_horario(int(request.json['id_horario'])))
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @horario_blueprint.route('/horario', methods=['POST'])
 @cross_origin()
 def horario():
-    return jsonify(model.get_horario(int(request.json['id_horario'])))
+    try:
+        return jsonify(model.get_horario(int(request.json['id_horario'])))
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @horario_blueprint.route('/horarios', methods=['POST'])
 @cross_origin()
 def horarios():
-    return jsonify(model.get_horarios())
+    try:
+        return jsonify(model.get_horarios())
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 

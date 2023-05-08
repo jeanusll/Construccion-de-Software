@@ -14,26 +14,49 @@ lista_blueprint = Blueprint('lista_blueprint', __name__)
 @lista_blueprint.route('/lista', methods=['POST'])
 @cross_origin()
 def create_lista():
-    content = lista_model.create_lista(request.json['id_curso'], request.json['dni_alumno'], request.json['estado'])    
-    return jsonify(content)
+    try:
+        content = lista_model.create_lista(request.json['id_curso'], request.json['dni_alumno'], request.json['estado'])
+        return jsonify(content)
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500
 
 @lista_blueprint.route('/lista', methods=['PATCH'])
 @cross_origin()
 def update_lista():
-    content = lista_model.update_lista(request.json['id_lista'], request.json['id_curso'], request.json['dni_alumno'], request.json['estado'])    
-    return jsonify(content)
+    try:
+        content = lista_model.update_lista(request.json['id_lista'], request.json['id_curso'], request.json['dni_alumno'], request.json['estado'])
+        return jsonify(content)
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500
 
 @lista_blueprint.route('/lista', methods=['DELETE'])
 @cross_origin()
 def delete_lista():
-    return jsonify(lista_model.delete_lista(request.json['id_lista']))
+    try:
+        return jsonify(lista_model.delete_lista(request.json['id_lista']))
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500
 
 @lista_blueprint.route('/lista', methods=['POST'])
 @cross_origin()
 def get_lista():
-    return jsonify(lista_model.get_lista(request.json['id_lista']))
+    try:
+        return jsonify(lista_model.get_lista(request.json['id_lista']))
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500
 
 @lista_blueprint.route('/listas', methods=['POST'])
 @cross_origin()
 def get_listas():
-    return jsonify(lista_model.get_listas())
+    try:
+        return jsonify(lista_model.get_listas())
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500

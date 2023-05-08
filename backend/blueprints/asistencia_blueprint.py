@@ -16,26 +16,50 @@ asistencia_blueprint = Blueprint('asistencia_blueprint', __name__)
 @asistencia_blueprint.route('/asistencia', methods=['PUT'])
 @cross_origin()
 def create_asistencia():
-    content = model.create_asistencia(request.json['dni_alumno'], request.json['id_curso'], request.json['fecha'], request.json['hora_asistencia'], request.json['tema_realizado'], request.json['foto']) 
-    return jsonify(content)
+    
+    try:
+        content = model.create_asistencia(request.json['dni_alumno'], request.json['id_curso'], request.json['fecha'], request.json['hora_asistencia'], request.json['tema_realizado'], request.json['foto']) 
+        return jsonify(content)
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @asistencia_blueprint.route('/asistencia', methods=['PATCH'])
 @cross_origin()
 def update_asistencia():
-    content = model.update_asistencia(request.json['id_asistencia'], request.json['dni_alumno'], request.json['id_curso'], request.json['fecha'], request.json['hora_asistencia'], request.json['tema_realizado'], request.json['asistio']) 
-    return jsonify(content)
+    try:
+        content = model.update_asistencia(request.json['id_asistencia'], request.json['dni_alumno'], request.json['id_curso'], request.json['fecha'], request.json['hora_asistencia'], request.json['tema_realizado'], request.json['asistio']) 
+        return jsonify(content)
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @asistencia_blueprint.route('/asistencia', methods=['DELETE'])
 @cross_origin()
 def delete_asistencia():
-    return jsonify(model.delete_asistencia(int(request.json['id_asistencia'])))
+    try:
+        return jsonify(model.delete_asistencia(int(request.json['id_asistencia'])))
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @asistencia_blueprint.route('/asistencia', methods=['POST'])
 @cross_origin()
 def asistencia():
-    return jsonify(model.get_asistencia(int(request.json['id_asistencia'])))
+    try:
+        return jsonify(model.get_asistencia(int(request.json['id_asistencia'])))
+    except KeyError as e:
+        return jsonify({'Error': f'Falta el campo obligatorio: {str(e)}' }), 400
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
 
 @asistencia_blueprint.route('/asistencias', methods=['POST'])
 @cross_origin()
 def asistencias():
-    return jsonify(model.get_asistencias())
+    try:
+        return jsonify(model.get_asistencias())       
+    except Exception as e:
+        return jsonify({'Error': str(e)}), 500 
